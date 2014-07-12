@@ -1,0 +1,26 @@
+{
+  "name": "motor-db",
+  "description": "Motor para base de datos no neutral",
+  "version": "0.1.0",
+  "author": "Emilio Platzer <emilioplatzer@outlook.com>",
+  "maintainers": [
+    "tute <emilioplatzer@outlook.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emilioplatzer/motor-db.git"
+  },
+  "keywords": [
+    "database",
+    "postgresql",
+    "mysql",
+    "sqlite",
+    "sqlite3",
+    "sql"
+  ],
+  "main": "./lib/motor-db",
+  "license": "BSD-3",
+  "engines": {
+    "node": ">= 0.6"
+  }
+}
