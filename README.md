@@ -77,9 +77,9 @@ Dada la siguiente llamada a ejecutar
     con.ejecutar(sql,{par1:1, par2:'dos', par3:true}, {otro:new Date(2012,1,13)});
     
 se creará una llamada a la base donde el string sql recibido como parámetro será completado con nombres de
-campos y placeholders en forma global. Todos los reemplazadores son de la forma `???`**ALGO**#\_\_**pref**\_\_, 
+campos y placeholders en forma global. Todos los reemplazadores son de la forma `???`**ALGO**\#\_\_**pref**\_\_, 
 siempre empiezan con los tres signos de pregunta, luego **ALGO** puede ser la palabra `CAMPOS`, `PARAMS` o `AND`,
-# es un número indicando a cuál grupo de parámetros se refiere 
+\# es un número indicando a cuál grupo de parámetros se refiere 
 y **pref** es el prefijo a colocar si se necesita un alias
 
 Ejemplos:
