@@ -1,11 +1,13 @@
 ﻿motor-db
 ========
 
+[![Build Status](https://travis-ci.org/emilioplatzer/motor-db.svg?branch=master)](https://travis-ci.org/emilioplatzer/motor-db)
+
 Motor de base de datos no neutral para NodeJS. Inicialmente con postgresql, sqlite y mysql. 
 
 El objetivo es poder usar un solo juego de librerías donde se escribe el mismo SQL para todas las bases. 
 
-El funcionamiento es siempre asincrónico basado en **Promise** <https://www.npmjs.org/package/promise-es6>
+El funcionamiento es siempre asincrónico basado en **Promise** <https://www.npmjs.org/package/es6-promise>
 
 Install
 =======
@@ -138,12 +140,25 @@ que a su vez equivale a una llamada al driver nativo a algo parecido a:
 
     driver.run('INSERT INTO la_tabla (campo1, campo2) VALUES (?, ?)', [1, 'a']);
 
-conexion.cerar();
+conexion.cerrar();
 --------------------------------
 
 Cierra la conexión con la base de datos
 
-    
+Dialecto SQL
+============
+
+Para poder unificar el dialecto SQL, de modo de escribir la misma sentencia para todos los motores
+las funciones que hacen consultas a la base intervienen el SQL rechazando y reemplazando partes:
+
+* `LIKE` se rechaza (porque en postgresql es case insensitive y en sqlite y mysqlite sensitive) **usar ILIKE**
+* `nombre_campo INTEGER PRIMARY KEY AUTO_INCREMENT` es la forma de crear un campo autonumérico que sea PK
+* `nombre_campo INTEGER AUTO_INCREMENT UNIQUE` es la formar de crear un campo autonumérico que sea UK (no hay otras maneras)
+* para obtener el valor recién insertado de un autonumérico hay que escribir `INSERT ... RETURNING nombre_campo_auto AS ultimo_id`
+* `TRUE` y `FALSE` se pueden usar como constantes o valores literales booleanos SQL (en sqlite y mysql son reemplazados por 1 y 0 automáticamente)
+* existe el tipo de datos `TIMESTAMP` 
+* está recomendado agregar `WITHOUT ROWID` al crear una tabla cuando se usen PK compuestas o no auto numéricas
+ 
 Running tests
 =============
 
