@@ -1,0 +1,20 @@
+[
+    {
+      "motor": "mysql",
+      "connect": {
+        "host": "localhost",
+        "database": "para_prueba_db",
+        "user": "para_prueba_usu",
+        "password": "probandibus1234"
+      }
+    },
+    {
+      "motor": "pg",
+      "connect": {
+        "host": "localhost",
+        "database": "para_prueba_db",
+        "user": "para_prueba_usu",
+        "password": "probandibus1234"
+      }
+    } 
+]

@@ -31,3 +31,7 @@ tmp
 .DS_Store
 bower_components/
 .svn
+
+# For test
+para_prueba.db
+*.local
