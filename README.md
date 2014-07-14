@@ -121,7 +121,7 @@ Ejecuta una consulta que puede devolver cero o más filas
 
 Recibe el sql y los parámetros con el mismo formato que `ejecutar`.
 
-conexion.insertar(nombre_tabla,\[parametros... \]);
+conexion.insertar(nombre_tabla,\[parametros\],\[opciones\]);
 --------------------------------
 
 Arma y ejecuta una consulta de inserción sobre la tabla nombre_tabla
@@ -140,6 +140,11 @@ que a su vez equivale a una llamada al driver nativo a algo parecido a:
 
     driver.run('INSERT INTO la_tabla (campo1, campo2) VALUES (?, ?)', [1, 'a']);
 
+Las opciones que se pueden especificar (en un arreglo asociativo) son:
+* `devolver_id`: el nombre del campo que tiene el id que se desea que se devuelva al insertar, si no no devuelve el ultimo_id
+* `saltearPorCampos`: si se desea que la inserción sea condicional (o sea que controle de no duplicar registros) 
+basado en los campos especificados (que pueden o no ser una Pk o Uk).
+    
 conexion.cerrar();
 --------------------------------
 
