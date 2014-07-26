@@ -248,7 +248,7 @@ describe('operaciones en transacciones ',function(){
             db.cerrar().then(done.bind(null,null),done);
         });
         it('en una transacción los datos se ven, al commitear también',function(done){
-            db.begin().then(function(){
+            db.start().then(function(){
                 return cambiar_prueba_t(142);
             }).then(function(){
                 return db.commit();
@@ -257,7 +257,7 @@ describe('operaciones en transacciones ',function(){
             }).then(done,done);
         });
         it('en una transacción los datos se ven, después del rollback no',function(done){
-            db.begin().then(function(){
+            db.start().then(function(){
                 return cambiar_prueba_t(143);
             }).then(function(){
                 return db.rollback();
@@ -275,8 +275,8 @@ describe('transacciones anidadas y aviso de falta de cerrado',function(){
         var db;
         it('lanza una excepción al no pedir que sea anidada',function(done){
             db=motorDb.nuevaConexion(config_db);
-            db.begin().then(function(){
-                return db.begin();
+            db.start().then(function(){
+                return db.start();
             }).then(function(){
                 expect().fail('falto {anidado:true}');
             }).catch(function(err){
@@ -286,8 +286,8 @@ describe('transacciones anidadas y aviso de falta de cerrado',function(){
         it('lanza una excepción al ejecutar un rollback dentro de una transaccion',function(done){
             var ok;
             db=motorDb.nuevaConexion(config_db);
-            db.begin().then(function(){
-                return db.begin({anidado:true});
+            db.start().then(function(){
+                return db.start({anidado:true});
             }).then(function(){
                 ok=!!"debe permitir commits anidados";
                 return db.rollback({anidado:true});
@@ -302,8 +302,8 @@ describe('transacciones anidadas y aviso de falta de cerrado',function(){
         it('admite transacciones anidadas',function(done){
             var ok;
             db=motorDb.nuevaConexion(config_db);
-            db.begin().then(function(){
-                return db.begin({anidado:true});
+            db.start().then(function(){
+                return db.start({anidado:true});
             }).then(function(){
                 return db.commit({anidado:true});
             }).then(function(){
