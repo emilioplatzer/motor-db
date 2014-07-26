@@ -35,3 +35,6 @@ bower_components/
 # For test
 para_prueba.db
 *.local
+
+# private stuff
+privado

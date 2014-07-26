@@ -218,3 +218,102 @@ describe('operaciones con datos ',function(){
     });
   });
 });
+
+describe('operaciones en transacciones ',function(){
+  config_dbs.forEach(function(config_db){
+    describe('transacciones en BaseDeDatos '+config_db.motor, function(){
+        var db;
+        beforeEach(function(done){
+            db=motorDb.nuevaConexion(config_db);
+            expect(db.db).to.be.ok();
+            db.ejecutar("DROP TABLE IF EXISTS prueba_t;").then(function(){
+                return db.ejecutar("CREATE TABLE prueba_t (numero INTEGER, texto VARCHAR(10));");
+            }).then(function(){
+                return db.insertar('prueba_t',{numero:141});
+            }).then(function(){
+            }).then(done,done);
+        });
+        var controlar_prueba_t=function(esperado){
+            return db.dato("SELECT numero FROM prueba_t").then(function(dato){
+                expect(dato).to.be.equal(esperado);
+            });
+        }
+        var cambiar_prueba_t=function(nuevoValor){
+            return db.ejecutar("UPDATE prueba_t SET ???1SET",{numero:nuevoValor}).then(function(){
+                controlar_prueba_t(nuevoValor);
+            });
+        }
+        afterEach(function(done){
+            // this.timeout(5000);
+            db.cerrar().then(done.bind(null,null),done);
+        });
+        it('en una transacción los datos se ven, al commitear también',function(done){
+            db.begin().then(function(){
+                return cambiar_prueba_t(142);
+            }).then(function(){
+                return db.commit();
+            }).then(function(){
+                return controlar_prueba_t(142);
+            }).then(done,done);
+        });
+        it('en una transacción los datos se ven, después del rollback no',function(done){
+            db.begin().then(function(){
+                return cambiar_prueba_t(143);
+            }).then(function(){
+                return db.rollback();
+            }).then(function(){
+                return controlar_prueba_t(141);
+            }).then(done,done);
+        });
+    });
+  });
+});
+
+describe('transacciones anidadas y aviso de falta de cerrado',function(){
+  config_dbs.forEach(function(config_db){
+    describe('transacciones anidadas en BaseDeDatos '+config_db.motor, function(){
+        var db;
+        it('lanza una excepción al no pedir que sea anidada',function(done){
+            db=motorDb.nuevaConexion(config_db);
+            db.begin().then(function(){
+                return db.begin();
+            }).then(function(){
+                expect().fail('falto {anidado:true}');
+            }).catch(function(err){
+                expect(err.message).to.match(/transaccion no anidable anidada/);
+            }).then(done,done);
+        });
+        it('lanza una excepción al ejecutar un rollback dentro de una transaccion',function(done){
+            var ok;
+            db=motorDb.nuevaConexion(config_db);
+            db.begin().then(function(){
+                return db.begin({anidado:true});
+            }).then(function(){
+                ok=!!"debe permitir commits anidados";
+                return db.rollback({anidado:true});
+            }).then(function(){
+                expect().fail('debe lanzar una excepcion por el rollback anidado');
+            }).catch(function(err){
+                expect(err.message).to.match(/rollback anidado/);
+            }).then(function(){
+                expect(ok).to.be.ok();
+            }).then(done,done);
+        });
+        it('admite transacciones anidadas',function(done){
+            var ok;
+            db=motorDb.nuevaConexion(config_db);
+            db.begin().then(function(){
+                return db.begin({anidado:true});
+            }).then(function(){
+                return db.commit({anidado:true});
+            }).then(function(){
+                return db.rollback();
+            }).then(function(){
+                ok=!!"debe permitir commits anidados";
+            }).then(function(){
+                expect(ok).to.be.ok();
+            }).then(done,done);
+        });
+    });
+  });
+});
