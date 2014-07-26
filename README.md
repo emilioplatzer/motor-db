@@ -150,6 +150,22 @@ conexion.cerrar();
 
 Cierra la conexión con la base de datos
 
+conexion.start(\[opciones\]);
+--------------------------------
+Comienza una transacción `START TRANSACTION`.
+
+Las opciones que se pueden especificar (en un arreglo asociativo) son:
+* `anidado`: permite anidar transacciones de modo que se envíe un único START TRANSACTION en el bloque más externo
+si hubiera una excepción o un rollback se cancelan todas las transacciones. 
+
+conexion.commit(\[opciones\]);
+--------------------------------
+Hace un `COMMIT`. Debe especificar en opciones si está dentro de una transacción anidada
+
+conexion.rollback(\[opciones\]);
+--------------------------------
+Hace un `ROLLBACK`. Debe especificar en opciones si está dentro de una transacción anidada
+
 Dialecto SQL
 ============
 
