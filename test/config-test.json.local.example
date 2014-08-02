@@ -16,5 +16,32 @@
         "user": "para_prueba_usu",
         "password": "probandibus1234"
       }
-    } 
+    },
+    {
+      "motor": "multiple",
+      "connect": [
+        {
+          "motor": "mysql",
+          "connect": {
+            "host": "localhost",
+            "database": "para_prueba_m_db",
+            "user": "para_prueba_usu",
+            "password": "probandibus1234"
+          }
+        },
+        {
+          "motor": "pg",
+          "connect": {
+            "host": "localhost",
+            "database": "para_prueba_m_db",
+            "user": "para_prueba_usu",
+            "password": "probandibus1234"
+          }
+        },
+        {
+          "motor": "sqlite3",
+          "connect": "para_prueba_m.db"
+        }
+      ]
+    }
 ]

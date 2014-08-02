@@ -93,6 +93,7 @@ describe('operaciones con datos ',function(){
     pg:datos_ins, // espero que postgresql sea perfecto!
     mysql:copiar_objeto(datos_ins), // sería deseable que mysql sea perfecto pero hay que cambiar los boolean
     sqlite3:copiar_objeto(datos_ins), // también tengo que cambiar las fechas
+    multiple:copiar_objeto(datos_ins)
   };
   var SIN_BOOL=['mysql','sqlite3'];
   SIN_BOOL.forEach(function(motor){
