@@ -1,6 +1,2 @@
 [
-    {
-      "motor": "sqlite3",
-      "connect": "para_prueba.db"
-    }
 ]
