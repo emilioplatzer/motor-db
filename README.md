@@ -183,7 +183,7 @@ las funciones que hacen consultas a la base intervienen el SQL rechazando y reem
 Running tests
 =============
 
-Las pruebas se basan en [mocha](http://visionmedia.github.io/mocha/)
+Las pruebas se basan en [mocha](http://mochajs.org/)
 
     $ npm install
     $ npm test
